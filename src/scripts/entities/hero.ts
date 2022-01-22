@@ -32,15 +32,25 @@ export default class Hero extends Phaser.GameObjects.Sprite{
             frames: this.anims.generateFrameNumbers('walk-e-spritesheet', {}),
             frameRate: 10,
             repeat: -1
-
-
+        });
+        this.anims.create({
+            key: 'walk-s-anim',
+            frames: this.anims.generateFrameNumbers('walk-s-spritesheet', {}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'idle-s-anim',
+            frames: this.anims.generateFrameNumbers('idle-s-spritesheet', {}),
+            frameRate: 10,
+            repeat: -1
         });
         this.rightKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.leftKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.downKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
 
-        this.anims.play('idle-e-anim');
+        this.anims.play('idle-e-anim', true);
         //this.setScal(1,5);
 
 
@@ -50,30 +60,41 @@ export default class Hero extends Phaser.GameObjects.Sprite{
         (this.body as Phaser.Physics.Arcade.Body).setVelocity(0);
         if (this.rightKey.isDown) {
             (this.body as Phaser.Physics.Arcade.Body).setVelocityX(175);
-           
             this.setFlipX(false);
-
-        } else {
-            this.anims.play('idle-e-anim', true);
+            this.heroState = HeroState.WALK;
+            this.heroPosition = HeroPosition.WEST;
         }
+
         if (this.leftKey.isDown) {
             (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-175);
-            this.anims.play('walk-e-anim', true);
             this.setFlipX(true);
-        } else {
-            this.anims.play('idle-e-anim', true);
-
+            this.heroState = HeroState.WALK;
+            this.heroPosition = HeroPosition.EAST;
         }
+
         if (this.downKey.isDown) {
             (this.body as Phaser.Physics.Arcade.Body).setVelocityY(175);
-            this.anims.play('walk-e-anim', true);
-            this.setFlipY(false);
-
-        } else {
-            this.anims.play('idle-e-anim', true);
+            this.heroState = HeroState.WALK;
+            this.heroPosition = HeroPosition.SOUTH;
+        } 
+        if(this.rightKey.isUp && this.leftKey.isUp && this.downKey.isUp){
+            this.heroState = HeroState.IDLE;
         }
         if(this.heroState == HeroState.IDLE){
-            
+            if(this.heroPosition == HeroPosition.WEST ||this.heroPosition == HeroPosition.EAST){
+            this.anims.play('idle-e-anim', true);
+            }
+            if(this.heroPosition == HeroPosition.SOUTH){
+                this.anims.play('idle-s-anim', true);
+            }
+        }
+        if(this.heroState == HeroState.WALK){
+            if(this.heroPosition == HeroPosition.WEST ||this.heroPosition == HeroPosition.EAST){
+            this.anims.play('walk-e-anim', true);
+            }
+            if(this.heroPosition == HeroPosition.SOUTH){
+                this.anims.play('walk-s-anim', true);
+            }
         }
     }
 
