@@ -97,7 +97,7 @@ export default class Hero extends Phaser.GameObjects.Sprite{
             this.heroState = HeroState.WALK;
             this.heroPosition = HeroPosition.NORTH;
         } 
-        if(this.rightKey.isUp && this.leftKey.isUp && this.downKey.isUp){
+        if(this.rightKey.isUp && this.leftKey.isUp && this.downKey.isUp && this.upKey.isUp){
             this.heroState = HeroState.IDLE;
         }
         if(this.heroState == HeroState.IDLE){
