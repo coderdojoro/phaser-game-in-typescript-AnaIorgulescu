@@ -72,8 +72,11 @@ export default class Hero extends Phaser.GameObjects.Sprite{
         } else {
             this.anims.play('idle-e-anim', true);
         }
-        if(this.heroState == HeroState.IDLE)
+        if(this.heroState == HeroState.IDLE){
+            
+        }
     }
+
       
   }
   
