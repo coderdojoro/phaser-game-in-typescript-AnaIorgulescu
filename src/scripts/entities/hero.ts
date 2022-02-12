@@ -23,6 +23,11 @@ export default class Hero extends Phaser.GameObjects.Sprite{
         super(scene, x, y,'idle-e-spritesheet', 0);
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
+
+        (this.body as Phaser.Physics.Arcade.Body).setSize(15, 25)
+        (this.body as Phaser.Physics.Arcade.Body).setOffset(, )
+
+
         this.anims.create({
             key: 'idle-e-anim',
             frames: this.anims.generateFrameNumbers('idle-e-spritesheet', {}),
