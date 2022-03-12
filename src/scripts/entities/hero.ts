@@ -15,6 +15,7 @@ export default class Hero extends Phaser.GameObjects.Sprite {
     leftKey: Phaser.Input.Keyboard.Key;
     downKey: Phaser.Input.Keyboard.Key;
     upKey: Phaser.Input.Keyboard.Key;
+    atk:Phaser.Input.Keyboard.Key;
 
     heroState: HeroState = HeroState.IDLE;
     heroPosition: HeroPosition = HeroPosition.EAST;
@@ -59,10 +60,26 @@ export default class Hero extends Phaser.GameObjects.Sprite {
             repeat: -1
         });
         this.anims.create({
-            key: 'walk-n-anim',
-            frames: this.anims.generateFrameNumbers('walk-n-spritesheet', {}),
+            key: 'atk-s-anim',
+            frames: this.anims.generateFrameNumbers('atk-s-spritesheet', {}),
             frameRate: 10,
             repeat: -1
+
+            this.anims.create({
+                key: 'atk-n-anim',
+                frames: this.anims.generateFrameNumbers('atk-n-spritesheet', {}),
+                frameRate: 10,
+                repeat: -1 
+
+                this.anims.create({
+                    key: 'atk-e-anim',
+                    frames: this.anims.generateFrameNumbers('atk-s-spritesheet', {}),
+                    frameRate: 10,
+                    repeat: -1 
+               
+
+
+
         });
         this.rightKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.leftKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
