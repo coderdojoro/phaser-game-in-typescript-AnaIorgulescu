@@ -8,18 +8,20 @@ export default class MainMenuScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.spritesheet('idle-e-spritesheet', 'assets/hero/idle_aggro_E.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('walk-e-spritesheet', 'assets/hero/walk_aggro_E.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('walk-s-spritesheet', 'assets/hero/walk_aggro_S.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('walk-n-spritesheet', 'assets/hero/walk_aggro_N.png', { frameWidth: 128, frameHeight: 128 });
+
         this.load.spritesheet('idle-s-spritesheet', 'assets/hero/idle_aggro_S.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('idle-n-spritesheet', 'assets/hero/idle_aggro_N.png', { frameWidth: 128, frameHeight: 128 });
-        this.load.spritesheet('walk-n-spritesheet', 'assets/hero/walk_aggro_N.png', { frameWidth: 128, frameHeight: 128 });
-        this.load.spritesheet('atk-n-spritesheet', 'assets/hero/attack_aggro_N.png', { frameWidth: 128, frameHeight: 128 });
-        this.load.spritesheet('atk-s-spritesheet', 'assets/hero/attack_aggro_S.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('idle-e-spritesheet', 'assets/hero/idle_aggro_E.png', { frameWidth: 128, frameHeight: 128 });
+
+        this.load.spritesheet('atk-n-spritesheet', 'assets/hero/atk_heavy_N.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('atk-s-spritesheet', 'assets/hero/atk_heavy_S.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('atk-e-spritesheet', 'assets/hero/atk_heavy_E.png', { frameWidth: 128, frameHeight: 128 });
 
         this.load.image('tiles', 'assets/tilesets/ground-tileset.png');
         this.load.tilemapTiledJSON('map', 'assets/tilemaps/town.json');
-
     }
     create() {
         // remove the loading screen
@@ -56,6 +58,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
         this.physics.add.collider(this.hero, worldlayer);
         this.cameras.main.startFollow(this.hero);
+        this.cameras.main.setZoom(3);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.physics.world.setBoundsCollision(true, true, true, true);
