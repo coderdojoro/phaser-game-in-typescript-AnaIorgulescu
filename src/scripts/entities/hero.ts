@@ -15,7 +15,7 @@ export default class Hero extends Phaser.GameObjects.Sprite {
     leftKey: Phaser.Input.Keyboard.Key;
     downKey: Phaser.Input.Keyboard.Key;
     upKey: Phaser.Input.Keyboard.Key;
-    atkKey:Phaser.Input.Keyboard.Key;
+    atkKey: Phaser.Input.Keyboard.Key;
 
     heroState: HeroState = HeroState.IDLE;
     heroPosition: HeroPosition = HeroPosition.EAST;
@@ -65,33 +65,29 @@ export default class Hero extends Phaser.GameObjects.Sprite {
             frameRate: 10,
             repeat: 0,
         });
-        
         this.anims.create({
-            key: 'atk-s-anim',
-            frames: this.anims.generateFrameNumbers('atk-s-spritesheet', {}),
+            key: 'atk-n-anim',
+            frames: this.anims.generateFrameNumbers('atk-n-spritesheet', {}),
             frameRate: 10,
-            repeat: -1
-
+            repeat: 0
         });
         this.anims.create({
             key: 'atk-e-anim',
             frames: this.anims.generateFrameNumbers('atk-e-spritesheet', {}),
             frameRate: 10,
-            repeat: -1 
+            repeat: 0
         });
         this.anims.create({
-            key: 'atk-n-anim',
-            frames: this.anims.generateFrameNumbers('atk-n-spritesheet', {}),
+            key: 'atk-s-anim',
+            frames: this.anims.generateFrameNumbers('atk-s-spritesheet', {}),
             frameRate: 10,
-            repeat: -1 
+            repeat: 0
         });
-
         this.rightKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.leftKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.downKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.upKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.atkKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
-
 
         this.anims.play('idle-e-anim', true);
         //this.setScale(2.5);
@@ -99,20 +95,19 @@ export default class Hero extends Phaser.GameObjects.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         (this.body as Phaser.Physics.Arcade.Body).setVelocity(0);
-        if(this.atkKey.isDown){
+        console.log('atk: ' + this.atkKey.isDown);
+        if (this.atkKey.isDown) {
             let cardinalPosition = HeroPosition[this.heroPosition].charAt(0).toLowerCase();
-            console.log(cardinalPosition);
-            this.anims.play('atk - ' + cardinalPosition + '- atk');
-            this.heroState = HeroState.ATTACK
-            this.once(Phaser.Animations.Events. ANIMATION_COMPLETE, ()=>{ ;
-                this.heroState = HeroState.IDLE
-                this.anims.play('atk - ' + cardinalPosition + '- atk');
+            this.anims.play('atk-' + cardinalPosition + '-anim');
+            this.heroState = HeroState.ATTACK;
+            this.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+                this.heroState = HeroState.IDLE;
+                this.anims.play('idle-' + cardinalPosition + '-anim');
             });
-
-        if(this.heroState == HeroState.ATTACK){
+        }
+        if (this.heroState == HeroState.ATTACK) {
             return;
         }
-
         if (this.rightKey.isDown) {
             (this.body as Phaser.Physics.Arcade.Body).setVelocityX(175);
             this.setFlipX(false);
