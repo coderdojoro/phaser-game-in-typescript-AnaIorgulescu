@@ -33,37 +33,37 @@ export default class Hero extends Phaser.GameObjects.Sprite {
             key: 'idle-e-anim',
             frames: this.anims.generateFrameNumbers('idle-e-spritesheet', {}),
             frameRate: 10,
-            repeat: 0,
+            repeat: -1
         });
         this.anims.create({
             key: 'idle-s-anim',
             frames: this.anims.generateFrameNumbers('idle-s-spritesheet', {}),
             frameRate: 10,
-            repeat: 0
+            repeat: -1
         });
         this.anims.create({
             key: 'idle-n-anim',
             frames: this.anims.generateFrameNumbers('idle-n-spritesheet', {}),
             frameRate: 10,
-            repeat: 0
+            repeat: -1
         });
         this.anims.create({
             key: 'walk-e-anim',
             frames: this.anims.generateFrameNumbers('walk-e-spritesheet', {}),
             frameRate: 10,
-            repeat: 0
+            repeat: -1
         });
         this.anims.create({
             key: 'walk-s-anim',
             frames: this.anims.generateFrameNumbers('walk-s-spritesheet', {}),
             frameRate: 10,
-            repeat: 0,
+            repeat: -1
         });
         this.anims.create({
             key: 'walk-n-anim',
             frames: this.anims.generateFrameNumbers('walk-n-spritesheet', {}),
             frameRate: 10,
-            repeat: 0,
+            repeat: -1
         });
         this.anims.create({
             key: 'atk-n-anim',
