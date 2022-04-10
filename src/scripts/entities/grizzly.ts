@@ -43,6 +43,10 @@ export default class Grizzly extends Phaser.GameObjects.Sprite {
             }
         }
         if(this.enemyState== State.FOLLOW){
+            let distanceFromTarget = Phaser.Math.Distance.Between(this.target.x, this.target.y, this.x, this.y);
+            if(distanceFromTarget<2){
+                this.comuteNextTarget();
+            }
             this.scene.physics.moveTo(this, this.target.x , this.target.y);
         }
     }
@@ -53,6 +57,9 @@ export default class Grizzly extends Phaser.GameObjects.Sprite {
             this.scene.map.worldToTileX(this.scene.hero.x),
             this.scene.map.worldToTileY(this.scene.hero.y),
             (path) => {
+                if(path == null){
+                    this.enemyState == State.IDLE;
+                }
                 this.target = new Phaser.Math.Vector2(this.scene.map.tileToWorldX(path[1].x)+16, (this.scene.map.tileToWorldY(path[1].y)+16) );
                 this.enemyState = State.FOLLOW;
             }
