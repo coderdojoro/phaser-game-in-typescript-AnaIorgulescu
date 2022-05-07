@@ -1,15 +1,15 @@
 import 'phaser';
 import * as EasyStar from 'easystarjs';
 import MainMenuScene from '../scenes/mainMenuScene';
-export enum State{
-    IDLE, 
+export enum State {
+    IDLE,
     FOLLOW
 }
 export default class Grizzly extends Phaser.GameObjects.Sprite {
     easystar: EasyStar.js;
-    scene:MainMenuScene;
+    scene: MainMenuScene;
     enemyState: State = State.IDLE;
-    target: Phaser.Math.Vector2;
+    target: Phaser.Math.Vector2 | null = null;
     constructor(scene, x, y) {
         super(scene, x, y, 'idle-e-spritesheet', 0);
         this.scene = scene;
@@ -22,49 +22,53 @@ export default class Grizzly extends Phaser.GameObjects.Sprite {
             key: 'grizzly-idle-anim',
             frames: this.anims.generateFrameNumbers('grizzly-idle-spritesheet', {}),
             frameRate: 5,
-            repeat: -1,
-        })
+            repeat: -1
+        });
         this.anims.play('grizzly-idle-anim', true);
 
         this.easystar = new EasyStar.js();
-        this.easystar.setGrid(this.scene.worldLayer.layer.data.map((arr)=>arr.map((tile)=> tile.index)));
+        this.easystar.setGrid(this.scene.worldLayer.layer.data.map((arr) => arr.map((tile) => tile.index)));
         this.easystar.setAcceptableTiles(-1);
         this.easystar.enableDiagonals();
         this.easystar.enableCornerCutting();
-
-        
     }
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
-        if(this.enemyState == State.IDLE){
+        if (this.enemyState == State.IDLE) {
             let distance = Phaser.Math.Distance.Between(this.x, this.y, this.scene.hero.x, this.scene.hero.y);
-            if(distance<300){
+            if (distance < 300) {
                 this.comuteNextTarget();
+                this.enemyState = State.FOLLOW;
             }
         }
-        if(this.enemyState== State.FOLLOW){
+        if (this.enemyState == State.FOLLOW) {
+            if (this.target == null) {
+                return;
+            }
             let distanceFromTarget = Phaser.Math.Distance.Between(this.target.x, this.target.y, this.x, this.y);
-            if(distanceFromTarget<2){
+            if (distanceFromTarget < 2) {
                 this.comuteNextTarget();
             }
-            this.scene.physics.moveTo(this, this.target.x , this.target.y);
+            this.scene.physics.moveTo(this, this.target.x, this.target.y);
         }
     }
-    comuteNextTarget(){
+    comuteNextTarget() {
         this.easystar.findPath(
-            this.scene.map.worldToTileX(this.x), 
+            this.scene.map.worldToTileX(this.x),
             this.scene.map.worldToTileY(this.y),
             this.scene.map.worldToTileX(this.scene.hero.x),
             this.scene.map.worldToTileY(this.scene.hero.y),
             (path) => {
-                if(path == null){
+                if (path == null) {
                     this.enemyState == State.IDLE;
                 }
-                this.target = new Phaser.Math.Vector2(this.scene.map.tileToWorldX(path[1].x)+16, (this.scene.map.tileToWorldY(path[1].y)+16) );
-                this.enemyState = State.FOLLOW;
+                if (path.length <= 2) {
+                    this.target = new Phaser.Math.Vector2(this.scene.hero.x, this.scene.hero.y);
+                    return;
+                }
+                this.target = new Phaser.Math.Vector2(this.scene.map.tileToWorldX(path[1].x) + 16, this.scene.map.tileToWorldY(path[1].y) + 16);
             }
         );
         this.easystar.calculate();
     }
 }
-
