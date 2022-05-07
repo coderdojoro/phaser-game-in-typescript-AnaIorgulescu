@@ -90,15 +90,20 @@ export default class Hero extends Phaser.GameObjects.Sprite {
         this.atkKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
 
         this.anims.play('idle-e-anim', true);
-        //this.setScale(2.5); 
+        //this.setScale(2.5);
     }
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         (this.body as Phaser.Physics.Arcade.Body).setVelocity(0);
         console.log('atk: ' + this.atkKey.isDown);
+
+        if (this.heroState == HeroState.ATTACK) {
+            return;
+        }
+
         if (this.atkKey.isDown) {
             let cardinalPosition = HeroPosition[this.heroPosition].charAt(0).toLowerCase();
-            if(cardinalPosition == 'w'){
+            if (cardinalPosition == 'w') {
                 cardinalPosition = 'e';
             }
             this.anims.play('atk-' + cardinalPosition + '-anim');
@@ -107,10 +112,9 @@ export default class Hero extends Phaser.GameObjects.Sprite {
                 this.heroState = HeroState.IDLE;
                 this.anims.play('idle-' + cardinalPosition + '-anim');
             });
-        }
-        if (this.heroState == HeroState.ATTACK) {
             return;
         }
+
         if (this.rightKey.isDown) {
             (this.body as Phaser.Physics.Arcade.Body).setVelocityX(175);
             this.setFlipX(false);
