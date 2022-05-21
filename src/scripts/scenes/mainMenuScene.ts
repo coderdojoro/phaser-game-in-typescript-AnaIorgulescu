@@ -20,12 +20,17 @@ export default class MainMenuScene extends Phaser.Scene {
         this.load.spritesheet('atk-n-spritesheet', 'assets/hero/atk_heavy_N.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('atk-e-spritesheet', 'assets/hero/atk_heavy_E.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('atk-s-spritesheet', 'assets/hero/atk_heavy_S.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('hero-hitdead-e-spritesheet', 'assets/hero/hitdead_E.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('hero-hitdead-n-spritesheet', 'assets/hero/hitdead_N.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('hero-hitdead-s-spritesheet', 'assets/hero/hitdead_S.png', { frameWidth: 128, frameHeight: 128 });
+        
 
         this.load.spritesheet('grizzly-idle-spritesheet', 'assets/entities/grizzly-idle.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('grizzly-walk-n-spritesheet', 'assets/entities/grizzly-north.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('grizzly-walk-s-spritesheet', 'assets/entities/grizzly-south.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('grizzly-walk-e-spritesheet', 'assets/entities/grizzly-east.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('grizzly-die-spritesheet', 'assets/entities/grizzly-die.png', { frameWidth: 32, frameHeight: 32 });
+
         this.load.image('tiles', 'assets/tilesets/ground-tileset.png');
         this.load.tilemapTiledJSON('map', 'assets/tilemaps/town.json');
     }
@@ -45,6 +50,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
         this.cameras.main.fadeIn(2000);
         this.cameras.main.setBackgroundColor('#008080');
+
 
         this.map = this.make.tilemap({ key: 'map' });
         let tileset = this.map.addTilesetImage('ground', 'tiles', 32, 32, 1, 2);
